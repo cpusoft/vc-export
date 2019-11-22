@@ -17,6 +17,7 @@ import (
 )
 
 type Export struct {
+	Id        int    `json:"id" xorm:"id"`
 	Asn       int    `json:"asn" xorm:"asn"`
 	Prefix    string `json:"prefix"`
 	MaxLength int    `json:"maxLength"   xorm:"maxLength"`
@@ -55,7 +56,8 @@ func main() {
 	talMap["rpki.ripe.net"] = "rpki.ripe.net"
 
 	exports := make([]Export, 0)
-	sql := `SELECT rpki_roa.asn as asn, 
+	sql := `SELECT 
+	     rpki_roa.local_id as id, 
 		(rpki_roa_prefix.prefix) as addressPrefix, 
 		rpki_roa_prefix.prefix_length as prefixLength, 
 		rpki_roa_prefix.prefix_max_length as maxLength,
